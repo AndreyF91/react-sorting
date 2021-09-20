@@ -14,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
     fetch(
-      "http://www.filltext.com?rows=32&id={index}&firstName={firstName}&lastName={lastName}&streetAddress={streetAddress}&city={city}&description={lorem|20}&email={email}"
+      "http://www.filltext.com?rows=65&id={index}&firstName={firstName}&lastName={lastName}&streetAddress={streetAddress}&city={city}&description={lorem|20}&email={email}"
     )
       .then((res) => res.json())
       .then((result) => {
