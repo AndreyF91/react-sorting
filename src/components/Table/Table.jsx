@@ -29,7 +29,7 @@ const Table = (props) => {
             ) : null}
           </th>
           <th onClick={props.onSort.bind(null, "lastName")}>
-            Фамилия 
+            Фамилия
             {props.sortField === "lastName" ? (
               props.sort === "desc" ? (
                 <img className="table__arrow" src={up} alt="asc" />
@@ -69,6 +69,8 @@ const Table = (props) => {
             lName={i.lastName}
             address={i.streetAddress}
             city={i.city}
+            item={i}
+            onClickRow={props.onClickRow}
           />
         ))}
       </tbody>
