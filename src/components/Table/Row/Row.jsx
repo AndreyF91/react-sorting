@@ -1,5 +1,4 @@
 const Row = (props) => {
-    debugger
     return (
         <tr className="row">
             <td className="row__cell">{props.id}</td>
