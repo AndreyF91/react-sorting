@@ -7,7 +7,8 @@ import _ from "lodash";
 const App = () => {
   const [data, setData] = useState([]);
   const [isLoaded, setStatus] = useState(false);
-  const [sort, setSort] = useState("desc");
+  const [sort, setSort] = useState("asc");
+  const [sortField, setSortField] = useState();
 
   useEffect(() => {
     fetch(
@@ -20,17 +21,18 @@ const App = () => {
       });
   }, []);
 
-  let onSort = (sortField) => {
+  let onSort = (onSortField) => {
     const cloned = data.concat();
     sort === "asc" ? setSort("desc") : setSort("asc");
     const orderedData = _.orderBy(cloned, sortField, sort);
     setData(orderedData);
+    setSortField(onSortField);
   };
 
   return (
     <div className="wrapper">
       <div className="app__inner">
-        {isLoaded ? <Table data={data} onSort={onSort} /> : <Loader />}
+        {isLoaded ? <Table data={data} onSort={onSort} sort={sort} sortField={sortField} /> : <Loader />}
         <div className="info"></div>
       </div>
     </div>
