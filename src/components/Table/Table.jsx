@@ -3,6 +3,7 @@ import "./Table.scss";
 import up from "../../assets/up.png";
 import down from "../../assets/down.png";
 
+
 const Table = (props) => {
   return (
     <table className="table">

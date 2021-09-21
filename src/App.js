@@ -4,6 +4,8 @@ import Loader from "./components/Loader/Loader";
 import Table from "./components/Table/Table";
 import _ from "lodash";
 import Card from "./components/Card/Card.jsx";
+import ReactPaginate from 'react-paginate';
+
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -35,6 +37,12 @@ const App = () => {
     setItemData(item);
   };
 
+  let handlePageClick = () => {
+
+  }
+
+  const pageSize = 40;
+
   return (
     <div className="wrapper">
       <div className="app__inner">
@@ -53,6 +61,22 @@ const App = () => {
           {itemData ? <Card itemData={itemData}/> : null} 
         </div>
       </div>
+      {
+        data.length > pageSize 
+          ? <ReactPaginate
+          previousLabel={'<'}
+          nextLabel={'>'}
+          breakLabel={'...'}
+          breakClassName={'break-me'}
+          pageCount={20}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageClick}
+          containerClassName={'app__pagination'}
+          activeClassName={'app__pagination--active'}
+        />
+        : null
+      }
     </div>
   );
 };
