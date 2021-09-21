@@ -13,10 +13,16 @@ const App = () => {
   const [sort, setSort] = useState("asc");
   const [sortField, setSortField] = useState();
   const [itemData, setItemData] = useState();
+  const [currentPage, setCurrentPage] = useState(0);
+
+
+  const pageSize = 50;
+  const pageCount = Math.ceil(data.length / pageSize)
+  const displayData = _.chunk(data, pageSize)[currentPage];
 
   useEffect(() => {
     fetch(
-      "http://www.filltext.com?rows=65&id={index}&firstName={firstName}&lastName={lastName}&streetAddress={streetAddress}&city={city}&description={lorem|20}&email={email}"
+      "http://www.filltext.com?rows=1000&id={index}&firstName={firstName}&lastName={lastName}&streetAddress={streetAddress}&city={city}&description={lorem|20}&email={email}"
     )
       .then((res) => res.json())
       .then((result) => {
@@ -25,7 +31,7 @@ const App = () => {
       });
   }, []);
 
-  let onSort = (onSortField) => {
+  const onSort = (onSortField) => {
     const cloned = data.concat();
     sort === "asc" ? setSort("desc") : setSort("asc");
     const orderedData = _.orderBy(cloned, sortField, sort);
@@ -33,22 +39,19 @@ const App = () => {
     setSortField(onSortField);
   };
 
-  let onClickRow = (item) => {
+  const onClickRow = (item) => {
     setItemData(item);
   };
 
-  let handlePageClick = () => {
-
+  const handlePageClick = ({selected}) => {
+    setCurrentPage(selected);
   }
-
-  const pageSize = 40;
-
   return (
     <div className="wrapper">
       <div className="app__inner">
         {isLoaded ? (
           <Table
-            data={data}
+            data={displayData}
             onSort={onSort}
             sort={sort}
             sortField={sortField}
@@ -68,12 +71,13 @@ const App = () => {
           nextLabel={'>'}
           breakLabel={'...'}
           breakClassName={'break-me'}
-          pageCount={20}
+          pageCount={pageCount}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}
           containerClassName={'app__pagination'}
           activeClassName={'app__pagination--active'}
+          forcePage={currentPage}
         />
         : null
       }

@@ -12,6 +12,7 @@ const Card = (props) => {
       <textarea
         className="card__textarea"
         value={props.itemData.description}
+        readOnly
       ></textarea>
       <p>
         <b>Город:</b> {props.itemData.city}
