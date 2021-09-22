@@ -4,8 +4,7 @@ import Loader from "./components/Loader/Loader";
 import Table from "./components/Table/Table";
 import _ from "lodash";
 import Card from "./components/Card/Card.jsx";
-import ReactPaginate from 'react-paginate';
-
+import ReactPaginate from "react-paginate";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -14,17 +13,14 @@ const App = () => {
   const [sortField, setSortField] = useState();
   const [itemData, setItemData] = useState();
   const [currentPage, setCurrentPage] = useState(0);
-
-
-  const pageSize = 50;
-  const pageCount = Math.ceil(data.length / pageSize)
-  const displayData = _.chunk(data, pageSize)[currentPage];
+  const [search, setSearch] = useState();
 
   useEffect(() => {
     fetch(
       "http://www.filltext.com?rows=1000&id={index}&firstName={firstName}&lastName={lastName}&streetAddress={streetAddress}&city={city}&description={lorem|20}&email={email}"
     )
       .then((res) => res.json())
+
       .then((result) => {
         setData(result);
         setStatus(true);
@@ -43,9 +39,35 @@ const App = () => {
     setItemData(item);
   };
 
-  const handlePageClick = ({selected}) => {
+  const handlePageClick = ({ selected }) => {
     setCurrentPage(selected);
-  }
+  };
+
+  const onSearch = (value) => {
+    setSearch(value);
+    setCurrentPage(0);
+  };
+
+  const getFilteredData = () => {
+    if (!search) {
+      return data;
+    } else
+      return data.filter((item) => {
+
+        return (
+          item["firstName"].toLowerCase().includes(search.toLowerCase()) ||
+          item["lastName"].toLowerCase().includes(search.toLowerCase()) ||
+          item["streetAddress"].toLowerCase().includes(search.toLowerCase())
+        );
+      });
+  };
+
+  const pageSize = 50;
+  const filteredData = getFilteredData();
+
+  const pageCount = Math.ceil(filteredData.length / pageSize);
+  const displayData = _.chunk(filteredData, pageSize)[currentPage];
+
   return (
     <div className="wrapper">
       <div className="app__inner">
@@ -56,31 +78,28 @@ const App = () => {
             sort={sort}
             sortField={sortField}
             onClickRow={onClickRow}
+            onSearch={onSearch}
           />
         ) : (
           <Loader />
         )}
-        <div className="info">
-          {itemData ? <Card itemData={itemData}/> : null} 
-        </div>
+        <div className="info">{itemData && <Card itemData={itemData} />}</div>
       </div>
-      {
-        data.length > pageSize 
-          ? <ReactPaginate
-          previousLabel={'<'}
-          nextLabel={'>'}
-          breakLabel={'...'}
-          breakClassName={'break-me'}
+      {data.length > pageSize ? (
+        <ReactPaginate
+          previousLabel={"<"}
+          nextLabel={">"}
+          breakLabel={"..."}
+          breakClassName={"break-me"}
           pageCount={pageCount}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}
-          containerClassName={'app__pagination'}
-          activeClassName={'app__pagination--active'}
+          containerClassName={"app__pagination"}
+          activeClassName={"app__pagination--active"}
           forcePage={currentPage}
         />
-        : null
-      }
+      ) : null}
     </div>
   );
 };
