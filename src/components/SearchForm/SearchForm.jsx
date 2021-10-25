@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./SearchForm.scss";
+import searchIcon from "../../assets/search-icon.png"
 
 const SearchForm = (props) => {
   const [inputValue, setInputValue] = useState("");
@@ -8,14 +9,15 @@ const SearchForm = (props) => {
   };
 
   return (
-    <form className="searchForm">
+    <form className="searchform">
       <input
         onChange={valueChangeHandler}
-        className="searchForm__input"
+        className="searchform__input"
         type="text"
         value={inputValue}
+        placeholder="Поиск"
       />
-      <button onClick={() => {props.onSearch(inputValue)}} className="searchForm__input" type="button" >Искать</button>
+      <button onClick={() => {props.onSearch(inputValue)}} className="searchform__btn" type="button" ><img src={searchIcon} alt="Искать" /> </button>
     </form>
   );
 };

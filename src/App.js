@@ -19,11 +19,24 @@ const App = () => {
     fetch(
       "http://www.filltext.com?rows=1000&id={index}&firstName={firstName}&lastName={lastName}&streetAddress={streetAddress}&city={city}&description={lorem|20}&email={email}"
     )
+      .then((res) => {
+        if (res.status >= 200 && res.status < 300) {
+          return res;
+        } else {
+          let error = new Error(res.statusText);
+          error.response = res;
+          throw error;
+        }
+      })
+      
       .then((res) => res.json())
-
       .then((result) => {
         setData(result);
         setStatus(true);
+      })
+      .catch((e) => {
+        console.log("Error: " + e.message);
+        console.log(e.response);
       });
   }, []);
 
@@ -53,7 +66,6 @@ const App = () => {
       return data;
     } else
       return data.filter((item) => {
-
         return (
           item["firstName"].toLowerCase().includes(search.toLowerCase()) ||
           item["lastName"].toLowerCase().includes(search.toLowerCase()) ||
@@ -85,7 +97,7 @@ const App = () => {
         )}
         <div className="info">{itemData && <Card itemData={itemData} />}</div>
       </div>
-      {data.length > pageSize ? (
+      {filteredData.length > pageSize ? (
         <ReactPaginate
           previousLabel={"<"}
           nextLabel={">"}

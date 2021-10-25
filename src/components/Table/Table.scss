@@ -2,7 +2,7 @@
     width: 100%;
     border: 1px solid #000;
     border-collapse: collapse;
-   
+
     &__wrapper {
         width: 100%;
         margin-right: 10px;
@@ -11,17 +11,23 @@
         font-size: 18px;
         border: 1px solid #000;
         cursor: pointer;
+        position: relative;
     }
     td {
         border: 1px solid #000;
         padding: 5px;
         position: relative;
-    }
+        cursor: pointer;
+}
     &__arrow {
         width: 12px;
         height: 12px;
         position: absolute;
-        top: 10px;
+        top: 7px;
         margin-left: 5px;
+    }
+    &__error {
+        text-align: center;
+        font-size: 22px;
     }
 }

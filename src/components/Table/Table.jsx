@@ -64,7 +64,7 @@ const Table = (props) => {
           </tr>
         </thead>
         <tbody>
-          {props.data.map((i) => (
+          {props.data ? props.data.map((i) => (
             <Row
               key={i.id}
               id={i.id}
@@ -75,7 +75,7 @@ const Table = (props) => {
               item={i}
               onClickRow={props.onClickRow}
             />
-          ))}
+          )) : <div className="table__error">Ничего не найдено</div> }
         </tbody>
       </table>
     </div>

@@ -1,4 +1,21 @@
-.searchForm {
+.searchform {
     display: flex;
     margin: 10px 0;
+
+    &__input {
+        width: 500px;
+        height: 30px;
+        padding: 3px 5px 3px 7px;
+        font-size: 20px;
+    }
+
+    &__btn {
+        width: 80px;
+        background-color: transparent;
+        border: 1px solid #000;
+        cursor: pointer;
+        &:hover {
+            border-color: rgb(43, 207, 191);
+        }
+    }
 }
